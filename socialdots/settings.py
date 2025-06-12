@@ -74,10 +74,15 @@ TEMPLATES = [
 WSGI_APPLICATION = 'socialdots.wsgi.application'
 
 
-
+# Database configuration
 import dj_database_url
-# Replace the DATABASES section of your settings.py with this
-DATABASE_URL='postgresql://neondb_owner:npg_uVM1t0IYBnkb@ep-lucky-unit-a17hl8ca-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require'
+from urllib.parse import urlparse
+
+# Get DATABASE_URL from environment or use the hardcoded one
+DATABASE_URL = os.environ.get('DATABASE_URL', 'postgresql://neondb_owner:npg_uVM1t0IYBnkb@ep-lucky-unit-a17hl8ca-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require')
+
+# Parse the DATABASE_URL
+tmpPostgres = urlparse(DATABASE_URL)
 
 DATABASES = {
     'default': {
@@ -86,7 +91,7 @@ DATABASES = {
         'USER': tmpPostgres.username,
         'PASSWORD': tmpPostgres.password,
         'HOST': tmpPostgres.hostname,
-        'PORT': 5432,
+        'PORT': '5432',
     }
 }
 
