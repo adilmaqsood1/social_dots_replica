@@ -9,10 +9,6 @@
         "runtime": "python3.9",
         "buildCommand": "pip install -r requirements.txt && python manage.py collectstatic --noinput"
       }
-    },
-    {
-      "src": "staticfiles/**",
-      "use": "@vercel/static"
     }
   ],
   "routes": [
@@ -23,6 +19,10 @@
     {
       "src": "/admin/static/(.*)",
       "dest": "/staticfiles/admin/$1"
+    },
+    {
+      "src": "/admin/(.*)/static/(.*)",
+      "dest": "/staticfiles/$1"
     },
     {
       "src": "/(.*)",
