@@ -1,35 +1,13 @@
 {
-  "version": 2,
-  "builds": [
-    {
+    "builds": [{
       "src": "socialdots/wsgi.py",
       "use": "@vercel/python",
-      "config": { 
-        "maxLambdaSize": "15mb", 
-        "runtime": "python3.9",
-        "buildCommand": "pip install -r requirements.txt && python manage.py collectstatic --noinput"
+      "config": { "maxLambdaSize": "15mb", "runtime": "python3.12.7" }
+    }],
+    "routes": [
+      {
+        "src": "/(.*)",
+        "dest": "socialdots/wsgi.py"
       }
-    }
-  ],
-  "routes": [
-    {
-      "src": "/static/(.*)",
-      "dest": "/staticfiles/$1"
-    },
-    {
-      "src": "/admin/static/(.*)",
-      "dest": "/staticfiles/admin/$1"
-    },
-    {
-      "src": "/admin/(.*)/static/(.*)",
-      "dest": "/staticfiles/$1"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "socialdots/wsgi.py"
-    }
-  ],
-  "env": {
-    "DJANGO_SETTINGS_MODULE": "socialdots.settings"
-  }
+    ]
 }
