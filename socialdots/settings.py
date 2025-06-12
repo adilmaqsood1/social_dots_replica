@@ -74,6 +74,8 @@ TEMPLATES = [
 WSGI_APPLICATION = 'socialdots.wsgi.application'
 
 
+
+import dj_database_url
 # Replace the DATABASES section of your settings.py with this
 DATABASE_URL='postgresql://neondb_owner:npg_uVM1t0IYBnkb@ep-lucky-unit-a17hl8ca-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require'
 
