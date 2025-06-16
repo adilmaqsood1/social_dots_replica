@@ -22,10 +22,12 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-2wx$m(yy7hf72+zq7&seb
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['*', '.vercel.app', '.now.sh']
 
 # Application definition
 INSTALLED_APPS = [
+    'jet.dashboard',
+    'jet',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -149,4 +151,53 @@ INTERNAL_IPS = [
 
 # WhiteNoise configuration for better static file handling
 WHITENOISE_USE_FINDERS = True
-WHITENOISE_AUTOREFRESH = True
+WHITENOISE_MANIFEST_STRICT = False
+WHITENOISE_ALLOW_ALL_ORIGINS = True
+
+# Django Jet configuration
+JET_DEFAULT_THEME = 'light-blue'
+JET_THEMES = [
+    {
+        'theme': 'default',
+        'color': '#47bac1',
+        'title': 'Default'
+    },
+    {
+        'theme': 'green',
+        'color': '#44b78b',
+        'title': 'Green'
+    },
+    {
+        'theme': 'light-green',
+        'color': '#2faa60',
+        'title': 'Light Green'
+    },
+    {
+        'theme': 'light-blue',
+        'color': '#5EADDE',
+        'title': 'Light Blue'
+    },
+    {
+        'theme': 'blue',
+        'color': '#5EADDE',
+        'title': 'Blue'
+    },
+    {
+        'theme': 'violet',
+        'color': '#a464c4',
+        'title': 'Violet'
+    },
+    {
+        'theme': 'orange',
+        'color': '#f38f33',
+        'title': 'Orange'
+    },
+    {
+        'theme': 'red',
+        'color': '#f05050',
+        'title': 'Red'
+    }
+]
+
+JET_SIDE_MENU_COMPACT = True
+JET_CHANGE_FORM_SIBLING_LINKS = True
