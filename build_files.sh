@@ -6,13 +6,13 @@ set -o errexit
 # Install dependencies
 pip install -r requirements.txt
 
-# Make migrations
-python manage.py makemigrations
+# Collect static files
+python manage.py collectstatic --noinput
 
 # Apply migrations
 python manage.py migrate
 
-# Collect static files
-python manage.py collectstatic --noinput --clear
+# Create superuser if needed (optional, uncomment if needed)
+# python manage.py createsuperuser --noinput
 
 echo "Build completed successfully!"
