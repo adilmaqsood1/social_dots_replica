@@ -1,8 +1,15 @@
 {
     "builds": [{
-      "src": "socialdots/wsgi.py",
+      "src": "wsgi_app.py",
       "use": "@vercel/python",
       "config": { "maxLambdaSize": "15mb", "runtime": "python3.9" }
+    },
+    {
+      "src": "build_files.sh",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "staticfiles"
+      }
     }],
     "routes": [
       {
@@ -15,7 +22,7 @@
       },
       {
         "src": "/(.*)",
-        "dest": "socialdots/wsgi.py"
+        "dest": "wsgi_app.py"
       }
     ],
     "env": {

@@ -37,9 +37,12 @@ INSTALLED_APPS = [
     'core', 
     'tailwind',  
     'theme',  
-    'django_browser_reload', 
     'whitenoise.runserver_nostatic', 
 ]
+
+# Add django_browser_reload only in debug mode
+if DEBUG:
+    INSTALLED_APPS.append('django_browser_reload')
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -50,15 +53,23 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django_browser_reload.middleware.BrowserReloadMiddleware',
 ]
+
+# Add browser reload middleware only in debug mode
+if DEBUG:
+    MIDDLEWARE.append('django_browser_reload.middleware.BrowserReloadMiddleware')
 
 ROOT_URLCONF = 'socialdots.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'templates'),
+            # Add Jet template directories
+            os.path.join(BASE_DIR, 'venv', 'Lib', 'site-packages', 'jet', 'templates'),
+            os.path.join(BASE_DIR, 'venv', 'Lib', 'site-packages', 'jet', 'dashboard', 'templates'),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -128,13 +139,23 @@ STATICFILES_DIRS = [
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Static files storage - use WhiteNoise for Vercel
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+if DEBUG:
+    # Use default storage in development
+    STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+else:
+    # Use simpler storage in production to avoid manifest issues
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
 # Static files finders
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 ]
+
+# WhiteNoise configuration for better static file handling
+WHITENOISE_USE_FINDERS = True
+WHITENOISE_MANIFEST_STRICT = False
+WHITENOISE_ALLOW_ALL_ORIGINS = True
 
 # Media files
 MEDIA_URL = '/media/'
